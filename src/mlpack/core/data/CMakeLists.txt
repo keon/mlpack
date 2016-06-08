@@ -15,6 +15,8 @@ set(SOURCES
   save_impl.hpp
   serialization_shim.hpp
   split_data.hpp
+  scale.hpp
+  scale_impl.hpp
 )
 
 # add directory name to sources
