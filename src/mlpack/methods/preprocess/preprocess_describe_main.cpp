@@ -21,6 +21,9 @@ PROGRAM_INFO("Descriptive Statistics", "This utility takes a dataset prints "
 PARAM_STRING_REQ("input_file", "File containing data,", "i");
 PARAM_INT("dimension", "Dimension of the data", "d", 0);
 PARAM_INT("precision", "preferred precision of the result", "p", 2);
+PARAM_FLAG("population", "If specified, the program will calculate statistics "
+    "assuming the dataset is the population. By default, the program will "
+    "assume the dataset as a sample.", "P")
 
 /**
  * Make sure a CSV is loaded correctly.
@@ -30,14 +33,16 @@ int main(int argc, char** argv)
   // Parse command line options.
   CLI::ParseCommandLine(argc, argv);
   const string inputFile = CLI::GetParam<string>("input_file");
-  const size_t dimension = (size_t) CLI::GetParam<int>("dimension");
-  const size_t precision = (size_t) CLI::GetParam<int>("precision");
+  const size_t dimension = static_cast<size_t>(CLI::GetParam<int>("dimension"));
+  const size_t precision = static_cast<size_t>(CLI::GetParam<int>("precision"));
+  const bool population = CLI::HasParam("population");
 
   // Load the data
   arma::mat data;
   data::Load(inputFile, data);
 
-  Statistics<double> stats(data);
+  Timer::Start("statistics");
+  Statistics<double> stats(data, population);
 
   // Headers
   Log::Info << boost::format("%-s	%-s	%-s	%-s	%-s	%-s	%-s	%-s	%-s	%-s	%-s")
@@ -93,5 +98,6 @@ int main(int argc, char** argv)
           << endl;
     }
   }
+  Timer::Stop("statistics");
 }
 
