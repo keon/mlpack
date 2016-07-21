@@ -39,62 +39,36 @@ int main(int argc, char** argv)
 
   // Load the data
   arma::mat data;
-  data::Load(inputFile, data);
+  data::Load(inputFile, data, false, true /*transpose*/);
 
   Timer::Start("statistics");
-  Statistics<double> stats(data, population);
+  Statistics<double> stats(data, population, true /*columMajor*/);
 
   // Headers
-  Log::Info << boost::format("%-s	%-s	%-s	%-s	%-s	%-s	%-s	%-s	%-s	%-s	%-s")
-      % "dim"
-      % "var"
-      % "mean"
-      % "std"
-      % "median"
-      % "min"
-      % "max"
-      % "range"
-      % "skew"
-      % "kurt"
-      % "SE"
-      << endl;
+  Log::Info << boost::format("%-s\t%-s\t%-s\t%-s\t%-s\t%-s\t%-s\t%-s\t%-s\t%-s"
+      "\t%-s") % "dim" % "var" % "mean" % "std" % "median" % "min" % "max"
+      % "range" % "skew" % "kurt" % "SE" << endl;
 
   // If the user specified dimension, describe statistics of the given
   // dimension. If it dimension not specified, describe all dimensions.
   if (CLI::HasParam("dimension"))
   {
-    Log::Info << boost::format("%-6i	%-.4f	%-.4f	%-.4f	%-.4f	%-.4f	%-.4f	%-.4f"
-        "	%-.4f	%-.4f	%-.4f")
-        % dimension
-        % stats.Variance(dimension)
-        % stats.Mean(dimension)
-        % stats.StandardDeviation(dimension)
-        % stats.Median(dimension)
-        % stats.Min(dimension)
-        % stats.Max(dimension)
-        % stats.Range(dimension)
-        % stats.Skewness(dimension)
-        % stats.Kurtosis(dimension)
-        % stats.StandardError(dimension)
-        << endl;
+    Log::Info << boost::format("%-6i\t%-.4f\t%-.4f\t%-.4f\t%-.4f\t%-.4f\t%-.4f"
+        "\t%-.4f\t%-.4f\t%-.4f\t%-.4f") % dimension % stats.Variance(dimension)
+        % stats.Mean(dimension) % stats.StandardDeviation(dimension)
+        % stats.Median(dimension) % stats.Min(dimension) % stats.Max(dimension)
+        % stats.Range(dimension) % stats.Skewness(dimension)
+        % stats.Kurtosis(dimension) % stats.StandardError(dimension) << endl;
   }
   else
   {
-    for (size_t i = 0; i < data.n_rows; ++i)
+    for (size_t i = 0; i < data.n_cols; ++i)
     {
-      Log::Info << boost::format("%-6i	%-.4f	%-.4f	%-.4f	%-.4f	%-.4f	%-.4f	"
-          "%-.4f	%-.4f	%-.4f	%-.4f")
-          % i
-          % stats.Variance(i)
-          % stats.Mean(i)
-          % stats.StandardDeviation(i)
-          % stats.Median(i)
-          % stats.Min(i)
-          % stats.Max(i)
-          % stats.Range(i)
-          % stats.Skewness(i)
-          % stats.Kurtosis(i)
-          % stats.StandardError(i)
+      Log::Info << boost::format("%-6i\t%-.4f\t%-.4f\t%-.4f\t%-.4f\t%-.4f\t"
+          "%-.4f\t%-.4f\t%-.4f\t%-.4f\t%-.4f")
+          % i % stats.Variance(i) % stats.Mean(i) % stats.StandardDeviation(i)
+          % stats.Median(i) % stats.Min(i) % stats.Max(i) % stats.Range(i)
+          % stats.Skewness(i) % stats.Kurtosis(i) % stats.StandardError(i)
           << endl;
     }
   }

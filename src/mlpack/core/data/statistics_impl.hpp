@@ -57,7 +57,45 @@ inline double Statistics<T>::Max(const size_t dimension) const
 template <typename T>
 inline double Statistics<T>::Range(const size_t dimension) const
 {
-  return Max(dimension) - Min(dimension);
+  std::pair<double, double> minmax = MinMax(dimension);
+  return minmax.second - minmax.first;
+}
+
+template <typename T>
+inline std::pair<double, double> Statistics<T>::MinMax(const size_t dimension)
+    const
+{
+  double min = 0;
+  double max = 0;
+  if (columnMajor)
+  {
+    for (size_t i = 0; i < data.n_cols; ++i)
+    {
+      if (data(dimension, i) > max)
+      {
+        max = data(dimension, i);
+      }
+      if (data(dimension, i) < min)
+      {
+        min = data(dimension, i);
+      }
+    }
+  }
+  else
+  {
+    for (size_t i = 0; i < data.n_rows; ++i)
+    {
+      if (data(i, dimension) > max)
+      {
+        max = data(i, dimension);
+      }
+      if (data(i, dimension) < min)
+      {
+        min = data(i, dimension);
+      }
+    }
+  }
+  return std::make_pair(min, max);
 }
 
 template <typename T>
@@ -126,7 +164,15 @@ inline double Statistics<T>::Skewness(const size_t dimension) const
   double skewness = 0;
   double S3 = pow(StandardDeviation(dimension), 3);
   double M3 = SumNthPowerDeviations(3, dimension);
-  double n = data.n_cols;
+  double n;
+  if (columnMajor)
+  {
+    n = data.n_cols;
+  }
+  else
+  {
+    n = data.n_rows;
+  }
   if (population)
   {
     // Calculate Population Skewness
@@ -145,7 +191,15 @@ inline double Statistics<T>::Kurtosis(const size_t dimension) const
 {
   double kurtosis = 0;
   double M4 = SumNthPowerDeviations(4, dimension);
-  double n = data.n_cols;
+  double n;
+  if (columnMajor)
+  {
+    n = data.n_cols;
+  }
+  else
+  {
+    n = data.n_rows;
+  }
   if (population)
   {
     // Calculate Population Excess Kurtosis
@@ -165,13 +219,24 @@ inline double Statistics<T>::Kurtosis(const size_t dimension) const
 }
 
 template <typename T>
-inline double Statistics<T>::SumNthPowerDeviations(const size_t n, const size_t dimension) const
+inline double Statistics<T>::SumNthPowerDeviations(const size_t n,
+    const size_t dimension) const
 {
   double sum = 0;
   double mean = Mean(dimension);
-  for (size_t i = 0; i < data.n_cols; ++i)
+  if (columnMajor)
   {
-    sum += pow(data(dimension, i) - mean, n);
+    for (size_t i = 0; i < data.n_cols; ++i)
+    {
+      sum += pow(data(dimension, i) - mean, n);
+    }
+  }
+  else
+  {
+    for (size_t i = 0; i < data.n_rows; ++i)
+    {
+      sum += pow(data(i, dimension) - mean, n);
+    }
   }
   return sum;
 }

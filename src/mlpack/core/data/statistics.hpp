@@ -45,6 +45,7 @@ class Statistics
    */
   double Max(const size_t dimension) const;
 
+  std::pair<double, double> MinMax(const size_t dimension) const;
   /**
    * StandardError of Mean
    *
@@ -54,7 +55,7 @@ class Statistics
   double Range(const size_t dimension) const;
 
   /**
-   * StandardError of Mean
+   * Mean, also known as average.
    *
    * @param dimension Dimension
    * @return sum of nth power deviations
