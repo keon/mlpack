@@ -5,7 +5,7 @@
  * Descriptive Statistics Class and CLI executable.
  */
 #include <mlpack/core.hpp>
-#include <mlpack/core/data/statistics.hpp>
+#include "statistics.hpp"
 
 #include <boost/format.hpp>
 
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
   }
   else
   {
-    for (size_t i = 0; i < data.n_cols; ++i)
+    for (size_t i = 0; i < data.n_rows; ++i)
     {
       Log::Info << boost::format("%-6i\t%-.4f\t%-.4f\t%-.4f\t%-.4f\t%-.4f\t"
           "%-.4f\t%-.4f\t%-.4f\t%-.4f\t%-.4f")

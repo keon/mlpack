@@ -5,8 +5,8 @@
  * Defines the Statistics class, which calculates various statistics on a given
  * data.
  */
-#ifndef MLPACK_CORE_DATA_STATISTICS_IMPL_HPP
-#define MLPACK_CORE_DATA_STATISTICS_IMPL_HPP
+#ifndef MLPACK_METHODS_PREPROCESS_STATISTICS_IMPL_HPP
+#define MLPACK_METHODS_PREPROCESS_STATISTICS_IMPL_HPP
 
 #include <mlpack/core.hpp>
 
