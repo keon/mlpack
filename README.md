@@ -8,7 +8,7 @@ learning researchers.
 
 **Download [current stable version (2.0.1)](http://www.mlpack.org/files/mlpack-2.0.1.tar.gz).**
 
-[![Build Status](http://big.mlpack.org/job/mlpack%20-%20git%20commit%20test/badge/icon)](http://big.mlpack.org/job/mlpack%20-%20git%20commit%20test/) <a href="https://ci.appveyor.com/project/mlpack/mlpack"><img src="https://ci.appveyor.com/api/projects/status/lmbfc78wi16agx4q?svg=true" alt="Build status" height="18"></a>
+[![Build Status](http://big.mlpack.org/job/mlpack%20-%20git%20commit%20test/badge/icon)](http://big.mlpack.org/job/mlpack%20-%20git%20commit%20test/) ("https://ci.appveyor.com/project/mlpack/mlpack"><img src="https://ci.appveyor.com/api/projects/status/lmbfc78wi16agx4q?svg=true" alt="Build status" height="18"></a>
 
 0. Contents
 -----------
@@ -33,6 +33,172 @@ documentation. The website should be consulted for further information:
   - [Tutorials](http://www.mlpack.org/docs/mlpack-git/doxygen.php?doc=tutorials.html)
   - [Development Site (Github)](http://www.github.com/mlpack/mlpack/)
   - [API documentation](http://www.mlpack.org/docs/mlpack-git/doxygen.php)
+
+Below is a high-level list of the available functionality contained
+within [mlpack](http://mlpack.org), along with relevant links to
+papers, API documentation, tutorials, or other references.
+
+  - AdaBoost
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1adaboost.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_adaboost.html)
+      [[wiki]](https://en.wikipedia.org/wiki/AdaBoost)
+      [[paper]](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.91.9277&rep=rep1&type=pdf)
+  - Alternating Matrix Factorization (AMF)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1amf.html)
+  - Collaborative Filtering (with many decomposition techniques) (CF)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1cf.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_cf.html)
+      [[wiki]](http://en.wikipedia.org/wiki/Collaborative_filtering)
+  - Decision Stumps (one-level decision trees)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1decision__stump.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_decision_stump.html)
+      [[paper]](http://www.mlpack.org/papers/ds.pdf)
+  - Density Estimation Trees (DET)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1det.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_det.html)
+      [[tutorial]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=dettutorial.html)
+      [[paper]](http://www.mlpack.org/papers/det.pdf)
+  - Euclidean Minimum Spanning Tree Calculation (EMST)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1emst.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_emst.html)
+      [[tutorial]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=emst_tutorial.html) 
+      [[paper]](http://www.mlpack.org/papers/emst.pdf)
+  - Fast Exact Max-Kernel Search (FaskMKS)
+      [[api]]()
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_fastmks.html)
+  - Gaussian Mixture Models (GMM)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1gmm.html) 
+      [cli-executable
+        [(train)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_train.html)
+        [(generate)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_generate.html)
+        [(probability)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_probability.html)
+      ]
+      [[wiki]](http://en.wikipedia.org/wiki/Gaussian_mixture_model)
+  - Hidden Markov Models (HMM)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1hmm.html) 
+      [cli-executable
+        [(train)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_train.html)
+        [(generate)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_generate.html)
+        [(loglik)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_loglik.html)
+        [(viterbi)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_viterbi.html)
+      ]
+      [[wiki]](http://en.wikipedia.org/wiki/Hidden_Markov_Model)
+  - Hoeffding Tree
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=classmlpack_1_1tree_1_1HoeffdingTree.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_hoeffding_tree.html)
+  - Kernel Principal Components Analysis (optionally with sampling) (KernelPCA)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1kpca.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_kernel_pca.html)
+      [[paper]](http://www.mlpack.org/papers/kpca.pdf)
+      [[wiki]](http://en.wikipedia.org/wiki/Kernel_principal_component_analysis)
+  - k-Means Clustering (with several accelerated algorithms)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1kmeans.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_kmeans.html)
+      [[tutorial]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=kmtutorial.html) 
+      [[wiki]](http://en.wikipedia.org/wiki/K-means_clustering)
+  - Least-Angle Regression (LARS/LASSO) 
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1regression.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_lars.html)
+      [[paper]](http://www.mlpack.org/papers/lars.pdf)
+      [[wiki]](http://en.wikipedia.org/wiki/Least-angle_regression)
+  - Linear Regression (simple least-squares) 
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1regression.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_linear_regression.html)
+      [[wiki]](http://en.wikipedia.org/wiki/Linear_regression)
+  - Local Coordinate coding 
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1lcc.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_local_coordinate_coding.html)
+      [[paper]](http://www.mlpack.org/papers/lcc.pdf)
+  - Locality-Sensitive Hashing for Approximate Nearest Neighbor Search (LSH)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1neighbor.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_lsh.html)
+      [[paper]](http://www.mlpack.org/papers/lsh.pdf)
+      [[wiki]](http://en.wikipedia.org/wiki/Locality-sensitive_hashing)
+  - Logistic Regression
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1regression.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_logistic_regression.html)
+      [[wiki]](http://en.wikipedia.org/wiki/Logistic_regression)
+  - Matrix Completion (nuclear norm minimization)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=classmlpack_1_1matrix__completion_1_1MatrixCompletion.html)
+      [[cli-executable]]()
+  - Max-Kernel Search
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1fastmks.html)
+      [[cli-executable]]()
+      [[tutorial]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=fmkstutorial.html) 
+      [[paper]](http://www.mlpack.org/papers/fmks.pdf)
+  - Mean Shift Clustering
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=classmlpack_1_1meanshift_1_1MeanShift.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_mean_shift.html)
+  - Maximum Variance Unfolding (MVU)
+      [[api]]()
+      [[cli-executable]]()
+  - Naive Bayes Classifier 
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1naive__bayes.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_nbc.html)
+      [[wiki]](http://en.wikipedia.org/wiki/Naive_Bayes_classifier)
+  - Nearest Neighbor Search with Dual-Tree Algorithms 
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1neighbor.html) 
+      [cli-executable
+        [(k-furthest)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_train.html)
+        [(k-nearest)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_generate.html)
+        [(loglik)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_loglik.html)
+        [(viterbi)](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_gmm_viterbi.html)
+      ]
+      [[tutorial]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=nstutorial.html) 
+      [[paper]](http://www.mlpack.org/papers/ns.pdf) 
+      [[wiki]](http://en.wikipedia.org/wiki/Nearest_neighbor_search)
+  - Neighborhood Components Analysis (NCA)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1nca.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_nca.html)
+      [[paper]](http://www.mlpack.org/papers/nca.pdf) 
+      [[wiki]](http://en.wikipedia.org/wiki/Neighborhood_components_analysis)
+  - Neural Network (NN)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1nn.html)
+      [[wiki]](https://en.wikipedia.org/wiki/Artificial_neural_network)
+  - Non-Negative Matrix Factorization (NMF)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1amf.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_nmf.html)
+      [[paper]](http://www.mlpack.org/papers/nmf.pdf) 
+      [[wiki]](http://en.wikipedia.org/wiki/Nonnegative_matrix_factorization)
+  - Perceptrons
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1perceptron.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_perceptron.html)
+      [[wiki]](http://en.wikipedia.org/wiki/Perceptron)
+  - Principal Components Analysis (PCA)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1pca.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_pca.html)
+      [[wiki]](http://en.wikipedia.org/wiki/Principal_components_analysis)
+  - RADICAL (independent components analysis)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1radical.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_radical.html)
+      [[paper]](http://www.mlpack.org/papers/radical.pdf)
+  - Range Search with Dual-Tree Algorithms
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1range.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_range_search.html)
+      [[tutorial]](doxygen.php?doc=rstutorial.html)
+      [[paper]](http://www.mlpack.org/papers/rs.pdf)
+      [[wiki]](http://en.wikipedia.org/wiki/Range_search)
+  - Rank-Approximate Nearest Neighbor Search (RANN)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=classRASearch.html) 
+      [[cli-executable]]()
+      [[paper]](http://www.mlpack.org/papers/rann.pdf)
+  - Regularized Singular Value Decomposition (SVD)
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1svd.html)
+      [[cli-executable]]()
+  - Recurrent Model for Visual Attention (RMVA)
+      [[api]]()
+      [[cli-executable]]()
+  - Softmax Regression
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=classmlpack_1_1regression_1_1SoftmaxRegression.html)
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_softmax_regression.html)
+  - Sparse Autoencoder
+      [[api]]()
+      [[cli-executable]]()
+  - Sparse Coding with Dictionary Learning
+      [[api]](http://www.mlpack.org/docs/mlpack-2.0.3/doxygen.php?doc=namespacemlpack_1_1sparse__coding.html) 
+      [[cli-executable]](http://www.mlpack.org/docs/mlpack-2.0.3/man/mlpack_sparse_coding.html)
+      [[paper]](http://www.mlpack.org/papers/sparse_coding.pdf) 
+      [[wiki]](http://en.wikipedia.org/wiki/Sparse_coding)
 
 2. Citation details
 -------------------
