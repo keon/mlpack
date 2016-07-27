@@ -1,8 +1,6 @@
 # Define the files we need to compile.
 # Anything not in this list will not be compiled into mlpack.
 set(SOURCES
-  statistics.hpp
-  statistics_impl.hpp
 )
 
 # Add directory name to sources.

@@ -1,12 +1,12 @@
 /**
- * @file statistics.hpp
+ * @file descriptive_statistics.hpp
  * @author Keon Kim
  *
- * Defines the Statistics class, which calculates various statistics on a given
- * data.
+ * Defines the Descriptive Statistics class, which calculates various statistics
+ * on a given data.
  */
-#ifndef MLPACK_METHODS_PREPROCESS_STATISTICS_HPP
-#define MLPACK_METHODS_PREPROCESS_STATISTICS_HPP
+#ifndef MLPACK_METHODS_PREPROCESS_DESCRIPTIVE_STATISTICS_HPP
+#define MLPACK_METHODS_PREPROCESS_DESCRIPTIVE_STATISTICS_HPP
 
 #include <mlpack/core.hpp>
 
@@ -16,19 +16,19 @@ namespace data {
 // Statistics class, it calculates most of the statistical elements in its
 // constructor.
 template <typename T>
-class Statistics
+class DescriptiveStatistics
 {
  public:
-
   /**
-   * Create the Statistics object with the given input and options.
+   * Create the DescriptiveStatistics object with the given input and options.
    *
    * @param input Dataset a user wishes to analyze.
    * @param population Determines if the input is considered sample or
    *        population data.
    * @param columnMajor Determines if the input is columnMajor or not.
    */
-  Statistics(const arma::Mat<T>& input, const bool population = false,
+  DescriptiveStatistics(arma::Mat<T>& input,
+      const bool population = false,
       const bool columnMajor = true);
 
   /**
@@ -133,8 +133,8 @@ class Statistics
   double StandardError(const size_t dimension) const;
 
  private:
-  // Is a copy of the original data.
-  arma::Mat<T> data;
+  // This is just a reference to the original input matrix.
+  arma::Mat<T>& data;
 
   // Determines if the dataset is considered as a sample or a population.
   bool population;
@@ -146,6 +146,6 @@ class Statistics
 } // namespace data
 } // namespace mlpack
 
-#include "statistics_impl.hpp"
+#include "descriptive_statistics_impl.hpp"
 
 #endif

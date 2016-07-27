@@ -2,11 +2,11 @@
  * @file statistics_impl.hpp
  * @author Keon Kim
  *
- * Defines the Statistics class, which calculates various statistics on a given
- * data.
+ * Defines the Descriptive DescriptiveStatistics class, which calculates various
+ * statistics on a given data.
  */
-#ifndef MLPACK_METHODS_PREPROCESS_STATISTICS_IMPL_HPP
-#define MLPACK_METHODS_PREPROCESS_STATISTICS_IMPL_HPP
+#ifndef MLPACK_METHODS_PREPROCESS_DESCRIPTIVE_STATISTICS_IMPL_HPP
+#define MLPACK_METHODS_PREPROCESS_DESCRIPTIVE_STATISTICS_IMPL_HPP
 
 #include <mlpack/core.hpp>
 
@@ -14,56 +14,53 @@ namespace mlpack {
 namespace data {
 
 template <typename T>
-inline Statistics<T>::Statistics(const arma::Mat<T>& input,
+inline DescriptiveStatistics<T>::DescriptiveStatistics(
+    arma::Mat<T>& input,
     const bool population,
     const bool columnMajor):
-    data(input),
-    population(population),
-    columnMajor(columnMajor)
+    data(input)
 {
   // Nothing to initialize here.
 }
 
 template <typename T>
-inline double Statistics<T>::Min(const size_t dimension) const
+inline double DescriptiveStatistics<T>::Min(const size_t dimension) const
 {
   if (columnMajor)
   {
     arma::rowvec z = data.row(dimension);
-    return arma::max(z);
   }
   else
   {
     arma::vec z = data.col(dimension);
-    return arma::max(z);
   }
+  return arma::max(z);
 }
 
 template <typename T>
-inline double Statistics<T>::Max(const size_t dimension) const
+inline double DescriptiveStatistics<T>::Max(const size_t dimension) const
 {
   if (columnMajor)
   {
     arma::rowvec z = data.row(dimension);
-    return arma::min(z);
   }
   else
   {
     arma::vec z = data.col(dimension);
-    return arma::min(z);
   }
+  return arma::min(z);
 }
 
 template <typename T>
-inline double Statistics<T>::Range(const size_t dimension) const
+inline double DescriptiveStatistics<T>::Range(const size_t dimension) const
 {
   std::pair<double, double> minmax = MinMax(dimension);
   return minmax.second - minmax.first;
 }
 
 template <typename T>
-inline std::pair<double, double> Statistics<T>::MinMax(const size_t dimension)
-    const
+inline std::pair<double, double> DescriptiveStatistics<T>::MinMax(
+    const size_t dimension) const
 {
   double min = 0;
   double max = 0;
@@ -99,80 +96,69 @@ inline std::pair<double, double> Statistics<T>::MinMax(const size_t dimension)
 }
 
 template <typename T>
-inline double Statistics<T>::Mean(const size_t dimension) const
+inline double DescriptiveStatistics<T>::Mean(const size_t dimension) const
 {
   if (columnMajor)
   {
     arma::rowvec z = data.row(dimension);
-    return arma::mean(z);
   }
   else
   {
     arma::vec z = data.col(dimension);
-    return arma::mean(z);
   }
+  return arma::mean(z);
 }
 
 template <typename T>
-inline double Statistics<T>::Median(const size_t dimension) const
+inline double DescriptiveStatistics<T>::Median(const size_t dimension) const
 {
   if (columnMajor)
   {
     arma::rowvec z = data.row(dimension);
-    return arma::median(z);
   }
   else
   {
     arma::vec z = data.col(dimension);
-    return arma::median(z);
   }
+  return arma::median(z);
 }
 
 template <typename T>
-inline double Statistics<T>::Variance(const size_t dimension) const
+inline double DescriptiveStatistics<T>::Variance(const size_t dimension) const
 {
   if (columnMajor)
   {
     arma::rowvec z = data.row(dimension);
-    return arma::var(z, population);
   }
   else
   {
     arma::vec z = data.col(dimension);
-    return arma::var(z, population);
   }
+  return arma::var(z, population);
 }
 
 template <typename T>
-inline double Statistics<T>::StandardDeviation(const size_t dimension) const
+inline double DescriptiveStatistics<T>::StandardDeviation(
+    const size_t dimension) const
 {
   if (columnMajor)
   {
     arma::rowvec z = data.row(dimension);
-    return arma::stddev(z, population);
   }
   else
   {
     arma::vec z = data.col(dimension);
-    return arma::stddev(z, population);
   }
+  return arma::stddev(z, population);
 }
 
 template <typename T>
-inline double Statistics<T>::Skewness(const size_t dimension) const
+inline double DescriptiveStatistics<T>::Skewness(const size_t dimension) const
 {
   double skewness = 0;
   double S3 = pow(StandardDeviation(dimension), 3);
   double M3 = SumNthPowerDeviations(3, dimension);
-  double n;
-  if (columnMajor)
-  {
-    n = data.n_cols;
-  }
-  else
-  {
-    n = data.n_rows;
-  }
+  double n = columnMajor ? data.n_cols : data.n_rows;
   if (population)
   {
     // Calculate Population Skewness
@@ -187,19 +173,11 @@ inline double Statistics<T>::Skewness(const size_t dimension) const
 }
 
 template <typename T>
-inline double Statistics<T>::Kurtosis(const size_t dimension) const
+inline double DescriptiveStatistics<T>::Kurtosis(const size_t dimension) const
 {
   double kurtosis = 0;
   double M4 = SumNthPowerDeviations(4, dimension);
-  double n;
-  if (columnMajor)
-  {
-    n = data.n_cols;
-  }
-  else
-  {
-    n = data.n_rows;
-  }
+  double n = columnMajor ? data.n_cols : data.n_rows;
   if (population)
   {
     // Calculate Population Excess Kurtosis
@@ -219,7 +197,7 @@ inline double Statistics<T>::Kurtosis(const size_t dimension) const
 }
 
 template <typename T>
-inline double Statistics<T>::SumNthPowerDeviations(const size_t n,
+inline double DescriptiveStatistics<T>::SumNthPowerDeviations(const size_t n,
     const size_t dimension) const
 {
   double sum = 0;
@@ -242,7 +220,8 @@ inline double Statistics<T>::SumNthPowerDeviations(const size_t n,
 }
 
 template <typename T>
-inline double Statistics<T>::StandardError(const size_t dimension) const
+inline double DescriptiveStatistics<T>::StandardError(
+    const size_t dimension) const
 {
    return StandardDeviation(dimension) / sqrt(data.n_cols);
 }
