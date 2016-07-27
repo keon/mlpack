@@ -38,11 +38,11 @@ PROGRAM_INFO("Descriptive Statistics", "This utility takes a dataset and "
     "$ mlpack_preprocess_describe -i dataset.csv -w 10 -p 5 -P -v");
 
 // Define parameters for data.
-PARAM_STRING_REQ("input_file", "File containing data,", "i");
-PARAM_INT("dimension", "Dimension of the data. Use this to specify a dimension",
-    "d", 0);
-PARAM_INT("precision", "Precision of the output statistics.", "p", 4);
-PARAM_INT("width", "Width of the output table.", "w", 8);
+PARAM_STRING_IN_REQ("input_file", "File containing data,", "i");
+PARAM_INT_IN("dimension", "Dimension of the data. Use this to specify a "
+    "dimension", "d", 0);
+PARAM_INT_IN("precision", "Precision of the output statistics.", "p", 4);
+PARAM_INT_IN("width", "Width of the output table.", "w", 8);
 PARAM_FLAG("population", "If specified, the program will calculate statistics "
     "assuming the dataset is the population. By default, the program will "
     "assume the dataset as a sample.", "P");
