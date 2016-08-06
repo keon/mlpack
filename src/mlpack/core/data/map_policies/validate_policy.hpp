@@ -26,7 +26,10 @@ class ValidatePolicy
 {
  public:
   // typedef of MappedType
+  // This policy maps strings to coordinates, pair of row and column coordinates
+  // of each invalid data.
   using MappedType = double;
+  using MappedObjectType = std::pair<size_t, size_t>;
 
   ValidatePolicy()
   {
@@ -76,8 +79,9 @@ class ValidatePolicy
          maps[dimension].first.left.count(string) == 0))
     {
       // This string does not exist yet.
-      typedef boost::bimap<std::string, MappedType>::value_type PairType;
-      maps[dimension].first.insert(PairType(string, NaN));
+      typedef boost::bimap<std::string, MappedObjectType>::value_type PairType;
+      MappedObjectType coordinates(99,99);
+      maps[dimension].first.insert(PairType(string, coordinates));
 
       if (categorical)
       {

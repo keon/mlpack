@@ -32,6 +32,19 @@ class DatasetMapper
 {
  public:
   /**
+   * BiMapType definition
+   */
+  using BiMapType =
+      boost::bimap<std::string, typename PolicyType::MappedObjectType>;
+
+  /**
+   * Mappings from strings to integers.
+   * Map entries will only exist for dimensions that are categorical.
+   * MapType = map<dimension, pair<bimap<string, MappedType>, numMappings>>
+   */
+  using MapType = std::unordered_map<size_t, std::pair<BiMapType, size_t>>;
+
+  /**
    * Create the DatasetMapper object with the given dimensionality.  Note that
    * the dimensionality cannot be changed later; you will have to create a new
    * DatasetMapper object.
@@ -76,8 +89,8 @@ class DatasetMapper
    * @param string Mapped string for value.
    * @param dimension Dimension to unmap string from.
    */
-  typename PolicyType::MappedType UnmapValue(const std::string& string,
-                                            const size_t dimension);
+  template <typename eT = typename PolicyType::MappedType>
+  eT UnmapValue(const std::string& string, const size_t dimension);
 
   /**
    * MapTokens turns vector of strings into numeric variables and puts them
@@ -92,8 +105,9 @@ class DatasetMapper
    * @param matrix Matrix to save the data into.
    */
   template <typename eT>
-  void MapTokens(const std::vector<std::string>& tokens, size_t& row,
-      arma::Mat<eT>& matrix);
+  void MapTokens(const std::vector<std::string>& tokens,
+                 size_t& row,
+                 arma::Mat<eT>& matrix);
 
   //! Return the type of a given dimension (numeric or categorical).
   Datatype Type(const size_t dimension) const;
@@ -133,17 +147,15 @@ class DatasetMapper
   //! Modify (Replace) the policy of the mapper with a new policy
   void Policy(PolicyType&& policy);
 
+  //! Return the policy of the mapper.
+  const MapType& Maps() const;
+
+  //! Modify the policy of the mapper (be careful!).
+  MapType& Maps();
+
  private:
   //! Types of each dimension.
   std::vector<Datatype> types;
-
-  // BiMapType definition
-  using BiMapType = boost::bimap<std::string, typename PolicyType::MappedType>;
-
-  // Mappings from strings to integers.
-  // Map entries will only exist for dimensions that are categorical.
-  // MapType = map<dimension, pair<bimap<string, MappedType>, numMappings>>
-  using MapType = std::unordered_map<size_t, std::pair<BiMapType, size_t>>;
 
   //! maps object stores string and numerical pairs.
   MapType maps;
@@ -153,7 +165,9 @@ class DatasetMapper
   PolicyType policy;
 };
 
-// Use typedef to provide backward compatibility
+/**
+ * Use typedef to provide backward compatibility
+ */
 using DatasetInfo = DatasetMapper<data::IncrementPolicy>;
 
 } // namespace data

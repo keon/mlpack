@@ -27,6 +27,7 @@ class MissingPolicy
  public:
   // typedef of MappedType
   using MappedType = double;
+  using MappedObjectType = MappedType;
 
   MissingPolicy()
   {
@@ -89,8 +90,6 @@ class MissingPolicy
       // This string already exists in the mapping
       // or not included in missingSet.
       // Unlike IncrementPolicy, MissingPolicy counts all mapped values.
-      size_t& numMappings = maps[dimension].second;
-      ++numMappings;
       return NaN;
     }
   }

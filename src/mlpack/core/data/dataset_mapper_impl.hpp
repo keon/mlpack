@@ -61,7 +61,8 @@ inline const std::string& DatasetMapper<PolicyType>::UnmapString(
 
 // Return the value corresponding to a string in a given dimension.
 template<typename PolicyType>
-inline typename PolicyType::MappedType DatasetMapper<PolicyType>::UnmapValue(
+template<typename eT>
+inline eT DatasetMapper<PolicyType>::UnmapValue(
     const std::string& string,
     const size_t dimension)
 {
@@ -141,6 +142,21 @@ template<typename PolicyType>
 inline void DatasetMapper<PolicyType>::Policy(PolicyType&& policy)
 {
   this->policy = std::forward<PolicyType>(policy);
+}
+
+template<typename PolicyType>
+inline const typename DatasetMapper<PolicyType>::MapType&
+DatasetMapper<PolicyType>::Maps() const
+{
+
+  return this->maps;
+}
+
+template<typename PolicyType>
+inline typename DatasetMapper<PolicyType>::MapType&
+DatasetMapper<PolicyType>::Maps()
+{
+  return this->maps;
 }
 
 } // namespace data

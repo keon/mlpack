@@ -26,6 +26,7 @@ class IncrementPolicy
  public:
   // typedef of MappedType
   using MappedType = size_t;
+  using MappedObjectType = MappedType;
 
   /**
    * Given the string and the dimension to which the it belongs, and the maps
