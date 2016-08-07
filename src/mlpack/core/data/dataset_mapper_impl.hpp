@@ -38,7 +38,8 @@ inline typename PolicyType::MappedType DatasetMapper<PolicyType>::MapString(
     const std::string& string,
     const size_t dimension)
 {
-  return policy.template MapString<MapType>(string, dimension, maps, types);
+  return policy.template MapString<MapType, ObjectMapType>(string, dimension,
+      maps, invalidMaps, types);
 }
 
 // Return the string corresponding to a value in a given dimension.

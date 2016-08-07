@@ -63,39 +63,52 @@ class ValidatePolicy
    * @param maps Unordered map given by the DatasetMapper.
    * @param types Vector containing the type information about each dimensions.
    */
-  template <typename MapType>
+  template <typename MapType, typename ObjectMapType>
   MappedType MapString(const std::string& string,
                        const size_t dimension,
                        MapType& maps,
+                       ObjectMapType& invalidMaps,
                        std::vector<Datatype>& types,
-                       const bool categorical = false)
+                       const size_t point = 0,
+                       const bool invalid = false)
   {
     // If this condition is true, either we have no mapping for the given string
     // or we have no mappings for the given dimension at all.  In either case,
     // we create a mapping.
+    Log::Debug << "MapString coordinates: dimension " << dimension << ", point:"
+        << point << std::endl;
     const double NaN = std::numeric_limits<double>::quiet_NaN();
-    if (missingSet.count(string) != 0 &&
-        (maps.count(dimension) == 0 ||
-         maps[dimension].first.left.count(string) == 0))
+    if (maps.count(dimension) == 0 ||
+        maps[dimension].first.left.count(string) == 0)
+    {
+      // This string does not exist yet.
+      size_t& numMappings = maps[dimension].second;
+
+      // change type of the feature to categorical
+      if (numMappings == 0)
+        types[dimension] = Datatype::categorical;
+
+      typedef boost::bimap<std::string, MappedType>::value_type PairType;
+      maps[dimension].first.insert(PairType(string, numMappings));
+      return numMappings++;
+    }
+    else if (invalid)
     {
       // This string does not exist yet.
       typedef boost::bimap<std::string, MappedObjectType>::value_type PairType;
-      MappedObjectType coordinates(99,99);
-      maps[dimension].first.insert(PairType(string, coordinates));
+      MappedObjectType coordinates(dimension, point);
+      invalidMaps[dimension].first.insert(PairType(string, coordinates));
 
-      if (categorical)
-      {
-        types[dimension] = Datatype::categorical;
-      }
-      size_t& numMappings = maps[dimension].second;
+      size_t& numMappings = invalidMaps[dimension].second;
       ++numMappings;
       return NaN;
     }
     else
     {
+      Log::Debug << "NOT CATEGORIZED MAPPING OCCURED" << std::endl;
       // This string already exists in the mapping or not included in
       // the missingSet.
-      return NaN;
+      return 9999;
     }
   }
 
@@ -115,11 +128,12 @@ class ValidatePolicy
    * @param maps Maps given by the DatasetMapper class.
    * @param types Types of each dimensions given by the DatasetMapper class.
    */
-  template <typename eT, typename MapType>
+  template <typename eT, typename MapType, typename ObjectMapType>
   void MapTokens(const std::vector<std::string>& tokens,
                  size_t& row,
                  arma::Mat<eT>& matrix,
                  MapType& maps,
+                 ObjectMapType& invalidMaps,
                  std::vector<Datatype>& types)
   {
     // ValidatePolicy allows double type matrix only, because it uses NaN.
@@ -146,19 +160,29 @@ class ValidatePolicy
       {
         double numeric;
         token.str(tokens[i]);
+
+        eT val;
         if (token >> numeric)
         {
-          Log::Warn << "Possibly problematic value at point " << i
+          Log::Debug << "TOKEN: Possibly problematic value at point " << i
               << ", categorical feature " << row << " : " << tokens[i]
               << " (numeric value in categorical feature)"<< std::endl;
+          val = static_cast<eT>(this->MapString(tokens[i], row, maps,
+              invalidMaps, types, i, true));
         }
         else if (missingSet.find(tokens[i]) != std::end(missingSet))
         {
-          Log::Warn << "Invalid value at point " <<i<< ", categorical feature "
+          Log::Debug << "TOKEN: Invalid value at point " << i
+              << ", categorical feature "
               << row << " : " << tokens[i] << std::endl;
+          val = static_cast<eT>(this->MapString(tokens[i], row, maps,
+              invalidMaps, types, i, true));
         }
-        const eT val = static_cast<eT>(this->MapString(tokens[i], row, maps,
-                                                       types, true));
+        else
+        {
+          val = static_cast<eT>(this->MapString(tokens[i], row, maps,
+              invalidMaps, types, i, false));
+        }
         matrix.at(row, i) = val;
         token.clear();
       }
@@ -175,7 +199,7 @@ class ValidatePolicy
         if (token.fail() || missingSet.find(tokens[i]) != std::end(missingSet))
         {
           const eT val = static_cast<eT>(this->MapString(tokens[i], row, maps,
-                                                         types, false));
+                invalidMaps, types, i, false));
           Log::Warn << "Invalid value at point " <<i<< ", numerical feature "
               << row << " : " << tokens[i] << std::endl;
           matrix.at(row, i) = val;

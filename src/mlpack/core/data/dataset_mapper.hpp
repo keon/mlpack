@@ -35,14 +35,18 @@ class DatasetMapper
    * BiMapType definition
    */
   using BiMapType =
-      boost::bimap<std::string, typename PolicyType::MappedObjectType>;
+      boost::bimap<std::string, typename PolicyType::MappedType>;
 
+  using ObjectBiMapType =
+      boost::bimap<std::string, typename PolicyType::MappedObjectType>;
   /**
    * Mappings from strings to integers.
    * Map entries will only exist for dimensions that are categorical.
    * MapType = map<dimension, pair<bimap<string, MappedType>, numMappings>>
    */
   using MapType = std::unordered_map<size_t, std::pair<BiMapType, size_t>>;
+  using ObjectMapType =
+      std::unordered_map<size_t, std::pair<ObjectBiMapType, size_t>>;
 
   /**
    * Create the DatasetMapper object with the given dimensionality.  Note that
@@ -160,9 +164,15 @@ class DatasetMapper
   //! maps object stores string and numerical pairs.
   MapType maps;
 
+  ObjectMapType invalidMaps;
+
   //! policy object tells dataset mapper how the categorical values should be
   //  mapped to the maps object. It is used in MapString() and MapTokens().
   PolicyType policy;
+
+  //! number of invalid values.
+  //size_t numInvalidMappings;
+  //size_t numMappings;
 };
 
 /**

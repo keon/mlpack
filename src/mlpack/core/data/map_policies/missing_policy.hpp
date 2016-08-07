@@ -61,10 +61,11 @@ class MissingPolicy
    * @param maps Unordered map given by the DatasetMapper.
    * @param types Vector containing the type information about each dimensions.
    */
-  template <typename MapType>
+  template <typename MapType, typename ObjectMapType>
   MappedType MapString(const std::string& string,
                        const size_t dimension,
                        MapType& maps,
+                       ObjectMapType& invalidMaps,
                        std::vector<Datatype>& types)
   {
     // mute the unused parameter warning (does nothing here.)
@@ -110,11 +111,12 @@ class MissingPolicy
    * @param maps Maps given by the DatasetMapper class.
    * @param types Types of each dimensions given by the DatasetMapper class.
    */
-  template <typename eT, typename MapType>
+  template <typename eT, typename MapType, typename ObjectMapType>
   void MapTokens(const std::vector<std::string>& tokens,
                  size_t& row,
                  arma::Mat<eT>& matrix,
                  MapType& maps,
+                 ObjectMapType& invalidMaps,
                  std::vector<Datatype>& types)
   {
     // MissingPolicy allows double type matrix only, because it uses NaN.
@@ -131,7 +133,7 @@ class MissingPolicy
       if (token.fail() || missingSet.find(tokens[i]) != std::end(missingSet))
       {
         const eT val = static_cast<eT>(this->MapString(tokens[i], row, maps,
-                                                       types));
+              invalidMaps, types));
         matrix.at(row, i) = val;
       }
       token.clear();

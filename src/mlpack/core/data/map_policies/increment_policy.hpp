@@ -41,10 +41,11 @@ class IncrementPolicy
    * @param maps Unordered map given by the DatasetMapper.
    * @param types Vector containing the type information about each dimensions.
    */
-  template <typename MapType>
+  template <typename MapType, typename ObjectMapType>
   MappedType MapString(const std::string& string,
                        const size_t dimension,
                        MapType& maps,
+                       ObjectMapType& invalidMaps,
                        std::vector<Datatype>& types)
   {
     // If this condition is true, either we have no mapping for the given string
@@ -86,11 +87,12 @@ class IncrementPolicy
    * @param maps Maps given by the DatasetMapper class.
    * @param types Types of each dimensions given by the DatasetMapper class.
    */
-  template <typename eT, typename MapType>
+  template <typename eT, typename MapType, typename ObjectMapType>
   void MapTokens(const std::vector<std::string>& tokens,
                  size_t& row,
                  arma::Mat<eT>& matrix,
                  MapType& maps,
+                 ObjectMapType& invalidMaps,
                  std::vector<Datatype>& types)
   {
     auto notNumber = [](const std::string& str)
@@ -109,7 +111,7 @@ class IncrementPolicy
        for (size_t i = 0; i != tokens.size(); ++i)
        {
          const eT val = static_cast<eT>(this->MapString(tokens[i], row, maps,
-                                                        types));
+               invalidMaps, types));
          matrix.at(row, i) = val;
        }
     }
