@@ -86,8 +86,8 @@ inline void DatasetMapper<PolicyType>::MapTokens(
     size_t& row,
     arma::Mat<eT>& matrix)
 {
-  return policy.template MapTokens<eT, MapType>(tokens, row, matrix, maps,
-                                                types);
+  return policy.template MapTokens<eT, MapType, ObjectMapType>(tokens, row,
+      matrix, maps, invalidMaps, types);
 }
 
 // Get the type of a particular dimension.

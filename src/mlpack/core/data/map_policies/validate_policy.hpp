@@ -78,9 +78,10 @@ class ValidatePolicy
     Log::Debug << "MapString coordinates: dimension " << dimension << ", point:"
         << point << std::endl;
     const double NaN = std::numeric_limits<double>::quiet_NaN();
-    if (maps.count(dimension) == 0 ||
-        maps[dimension].first.left.count(string) == 0)
+    if (!invalid && (maps.count(dimension) == 0 ||
+        maps[dimension].first.left.count(string) == 0))
     {
+      Log::Debug << "<INCREMENT MAPPING>" << std::endl;
       // This string does not exist yet.
       size_t& numMappings = maps[dimension].second;
 
@@ -92,8 +93,9 @@ class ValidatePolicy
       maps[dimension].first.insert(PairType(string, numMappings));
       return numMappings++;
     }
-    else if (invalid)
+    if (invalid)
     {
+      Log::Debug << "<INVALID MAPPING>" << std::endl;
       // This string does not exist yet.
       typedef boost::bimap<std::string, MappedObjectType>::value_type PairType;
       MappedObjectType coordinates(dimension, point);
@@ -105,10 +107,10 @@ class ValidatePolicy
     }
     else
     {
-      Log::Debug << "NOT CATEGORIZED MAPPING OCCURED" << std::endl;
+      Log::Debug << "<NOT CATEGORIZED MAPPING OCCURED>" << std::endl;
       // This string already exists in the mapping or not included in
       // the missingSet.
-      return 9999;
+      return maps[dimension].first.left.at(string);
     }
   }
 
@@ -199,7 +201,7 @@ class ValidatePolicy
         if (token.fail() || missingSet.find(tokens[i]) != std::end(missingSet))
         {
           const eT val = static_cast<eT>(this->MapString(tokens[i], row, maps,
-                invalidMaps, types, i, false));
+                invalidMaps, types, i, true));
           Log::Warn << "Invalid value at point " <<i<< ", numerical feature "
               << row << " : " << tokens[i] << std::endl;
           matrix.at(row, i) = val;

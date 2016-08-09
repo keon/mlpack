@@ -88,6 +88,10 @@ int main(int argc, char** argv)
     }
   }
 
+
+  Log::Debug << "<input matrix>" << endl;
+  Log::Debug << input << endl;
+
   Timer::Start("validation");
   if (CLI::HasParam("minimum") || CLI::HasParam("maximum"))
   {
