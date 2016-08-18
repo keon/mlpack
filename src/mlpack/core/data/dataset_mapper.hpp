@@ -34,11 +34,12 @@ class DatasetMapper
   /**
    * BiMapType definition
    */
+  using MappedObjectType = std::pair<size_t, size_t>;
   using BiMapType =
       boost::bimap<std::string, typename PolicyType::MappedType>;
 
   using ObjectBiMapType =
-      boost::bimap<std::string, typename PolicyType::MappedObjectType>;
+      boost::bimap<std::string, MappedObjectType>;
   /**
    * Mappings from strings to integers.
    * Map entries will only exist for dimensions that are categorical.
@@ -73,6 +74,41 @@ class DatasetMapper
    */
   typename PolicyType::MappedType MapString(const std::string& string,
                                             const size_t dimension);
+
+  double MapInvalidValue(const std::string& string,
+                         const size_t dimension,
+                         const size_t point)
+  {
+
+    //return policy.template MapString<MapType, ObjectMapType>(string, dimension,
+        //maps, invalidMaps, types);
+/***/
+    const double NaN = std::numeric_limits<double>::quiet_NaN();
+    Log::Debug << "<INVALID MAPPING>" << std::endl;
+    // This string does not exist yet.
+    typedef boost::bimap<std::string, MappedObjectType>::value_type PairType;
+    MappedObjectType coordinates(dimension, point);
+    invalidMaps[dimension].first.insert(PairType(string, coordinates));
+
+    size_t& numMappings = invalidMaps[dimension].second;
+    ++numMappings;
+    return NaN;
+  }
+
+  std::pair<size_t, size_t> UnmapInvalidValue(const std::string& string,
+                                              const size_t dimension)
+  {
+    // Throw an exception if the value doesn't exist.
+    if (maps[dimension].first.left.count(string) == 0)
+    {
+      std::ostringstream oss;
+      oss << "DatasetMapper<PolicyType>::UnmapValue(): string '" << string
+          << "' unknown for dimension " << dimension;
+      throw std::invalid_argument(oss.str());
+    }
+
+    return maps[dimension].first.left.at(string);
+  }
 
   /**
    * Return the string that corresponds to a given value in a given dimension.
@@ -111,7 +147,34 @@ class DatasetMapper
   template <typename eT>
   void MapTokens(const std::vector<std::string>& tokens,
                  size_t& row,
-                 arma::Mat<eT>& matrix);
+                 arma::Mat<eT>& matrix)
+  {
+    std::stringstream token;
+    for (size_t i = 0; i != tokens.size(); ++i)
+    {
+      token.str(tokens[i]);
+      token>>matrix.at(row, i);
+      eT val;
+      // if a token is a number or categorical value,
+      // but is included in the missingSet, map it to invalidMaps.
+      // if the token is just not a number, map it to maps.
+      if (missingSet.find(tokens[i]) != std::end(missingSet))
+      {
+        val = static_cast<eT>(this->MapInvalidValue(tokens[i], row, i));
+        Log::Warn << "Invalid value at point " <<i<< ", numerical feature "
+            << row << " : " << tokens[i] << std::endl;
+        matrix.at(row, i) = val;
+      }
+      else if (token.fail())
+      {
+        Log::Warn << "Categorical value at point " <<i<< ", cat feature "
+            << row << " : " << tokens[i] << std::endl;
+        val = static_cast<eT>(this->MapString(tokens[i], row));
+      }
+      matrix.at(row, i) = val;
+      token.clear();
+    }
+  }
 
   //! Return the type of a given dimension (numeric or categorical).
   Datatype Type(const size_t dimension) const;
@@ -151,11 +214,9 @@ class DatasetMapper
   //! Modify (Replace) the policy of the mapper with a new policy
   void Policy(PolicyType&& policy);
 
-  //! Return the policy of the mapper.
-  const MapType& Maps() const;
-
-  //! Modify the policy of the mapper (be careful!).
-  MapType& Maps();
+  // Note that missingSet and maps are different.
+  // missingSet specifies which value/string should be mapped.
+  std::set<std::string> missingSet;
 
  private:
   //! Types of each dimension.
